@@ -509,7 +509,7 @@ nav.scrolled {
   align-items: flex-end;
   padding: 40px;
   overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
 }
 .about-card-large:hover {
   transform: translateY(-5px);
@@ -1505,10 +1505,8 @@ u + #body a {
 }
   /* Исправление блока с KZ */
 .about-card-large:hover {
-  /* Деликатно приподнимаем вверх на 8px */
-  transform: translateY(-8px); 
-  /* Усиливаем тень снизу, чтобы создать эффект полета */
-  box-shadow: 0 30px 60px rgba(0,0,0,0.5), 0 0 50px rgba(212, 175, 55, 0.08);
+  transform: none;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 40px rgba(212, 175, 55, 0.05);
 }
 
 .about-glyph {
@@ -1517,16 +1515,7 @@ u + #body a {
   font-size: 8rem;
   color: rgba(255,255,255,0.06);
   z-index: 0;
-  /* Добавляем плавность для цвета и движения самого символа */
-  transition: all 0.5s ease;
-  pointer-events: none; /* Чтобы мышка не цеплялась за буквы, а видела только карточку */
 }
-
-.about-card-large:hover .about-glyph {
-  color: rgba(255,255,255,0.1);
-  transform: scale(1.05); /* Символ KZ чуть увеличится внутри, создавая глубину */
-}
-
 
 .about-card-large:hover .about-glyph {
   color: rgba(255,255,255,0.08);
@@ -1546,64 +1535,60 @@ u + #body a {
   bottom: -18px;
   right: -36px;
 }
-/* Когда мы наводим на большую карточку, маленькие чуть уходят вглубь */
-.about-card-large:hover .about-mini-cards {
-  transform: translate(5px, 5px) scale(0.98);
-  transition: transform 0.4s ease;
-}
 
 .mini-card {
   background: rgba(10, 13, 18, 0.92);
 }
-    /* Позиционирование блока Концепция */
+  /* Разделение двух колонок в финансовом блоке */
+.finance-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  position: relative;
+}
+
+.finance-right {
+  padding-left: 44px;
+  border-left: 1px solid rgba(255,255,255,0.08);
+}
   .about-card-caption {
-    position: absolute;
-    /* Размещаем внизу справа */
-    right: -20px; 
-    bottom: 80px; 
-    
-    z-index: 10;
-    max-width: 280px; /* Делаем поуже, как на фото */
-    padding: 20px;
-    
-    background: rgba(10, 13, 18, 0.95);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-  }
+  position: absolute;
+  left: 40px;
+  right: 40px;
 
-  .about-card-caption strong {
-    display: block;
-    font-family: var(--font-display);
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent-gold);
-    margin-bottom: 8px;
-  }
+  bottom: 120px; /* <-- ВОТ ГЛАВНОЕ */
 
-  .about-card-caption p {
-    font-family: var(--font-body);
-    font-size: 1.1rem;
-    line-height: 1.4;
-    color: rgba(255,255,255,0.9);
-  }
+  z-index: 3;
 
-  /* Адаптив для мобилок, чтобы не вылетало за экран */
-  @media (max-width: 900px) {
-    .about-card-caption {
-      right: 0;
-      bottom: 60px;
-      max-width: 240px;
-    }
-    .about-mini-cards {
-      right: -10px;
-    }
-  }
+  max-width: 420px;
 
+  padding: 22px 26px;
+
+  background: rgba(8, 10, 12, 0.82);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 4px;
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.about-card-caption strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 10px;
+}
+
+.about-card-caption p {
+  font-family: var(--font-body);
+  font-size: 1.22rem;
+  line-height: 1.45;
+  color: rgba(255,255,255,0.9);
+}
 </style>
 
 </head>
@@ -1715,23 +1700,15 @@ u + #body a {
         </ul>
       </div>
       <div class="r-right">
-       <div class="about-visual">
-  <div class="about-card-large">
-    <div class="about-glyph">KZ</div>
-  </div>
-
-  <div class="about-card-caption">
-    <strong>Концепция</strong>
-    <p>Это не просто туризм. Это curated experience.</p>
-  </div>
-
-  <div class="about-mini-cards">
-    <div class="mini-card">...</div>
-    <div class="mini-card">...</div>
-    <div class="mini-card">...</div>
-  </div>
+        <div class="about-visual">
+          <div class="about-card-large">
+  <div class="about-glyph">KZ</div>
 </div>
 
+<div class="about-card-caption">
+  <strong>Концепция</strong>
+  <p>Это не просто туризм. Это curated experience.</p>
+</div>
           <div class="about-mini-cards">
             <div class="mini-card">
               <span class="mini-card-icon">🦅</span>
