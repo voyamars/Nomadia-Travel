@@ -1553,13 +1553,14 @@ u + #body a {
 }
   .about-card-caption {
   position: absolute;
-  left: 50%;
-  bottom: 40px;
-  transform: translateX(-50%);
+  left: 40px;
+  right: 40px;
+
+  bottom: 120px; /* <-- ВОТ ГЛАВНОЕ */
+
   z-index: 3;
 
-  max-width: 380px;
-  width: calc(100% - 80px);
+  max-width: 420px;
 
   padding: 22px 26px;
 
@@ -1569,8 +1570,6 @@ u + #body a {
 
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-
-  text-align: left;
 }
 
 .about-card-caption strong {
