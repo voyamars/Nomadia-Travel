@@ -1,0 +1,2227 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Nomadia — Luxury Expeditions in Central Asia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Unbounded:wght@300;400;600;700;900&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  /* Сделали фон чуть глубже для премиального контраста */
+  --bg: #050608;
+  --bg2: #080A0C;
+  --surface: rgba(255, 255, 255, 0.025);
+  --surface-hover: rgba(255, 255, 255, 0.04);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-glow: rgba(0, 175, 202, 0.4);
+  --text: #F4F1ED;
+  --muted: #8A8A8A;
+  --accent-blue: #00AFCA;
+  --accent-gold: #D4AF37; /* Более благородный золотой */
+  --accent-warm: #E8D08D;
+  --font-display: 'Unbounded', sans-serif;
+  --font-body: 'Cormorant Garamond', serif;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  cursor: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── CUSTOM CURSOR ── */
+.cursor {
+  position: fixed;
+  top: 0; left: 0;
+  width: 8px; height: 8px;
+  background: var(--accent-gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  transition: transform 0.15s ease, width 0.3s ease, height 0.3s ease;
+  transform: translate(-50%, -50%);
+}
+.cursor-ring {
+  position: fixed;
+  top: 0; left: 0;
+  width: 44px; height: 44px;
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), width 0.3s, height 0.3s, opacity 0.3s;
+}
+body:hover .cursor-ring { opacity: 1; }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-gold); }
+
+/* ── NOISE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.4;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 900;
+  padding: 28px 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.5s ease, backdrop-filter 0.5s ease, padding 0.5s ease, border-bottom 0.5s ease;
+  border-bottom: 1px solid transparent;
+}
+nav.scrolled {
+  background: rgba(5, 6, 8, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  padding: 18px 60px;
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--text);
+  text-decoration: none;
+  text-shadow: 0 0 20px rgba(255,255,255,0.1);
+}
+.nav-links {
+  display: flex;
+  gap: 48px;
+  list-style: none;
+}
+.nav-links a {
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+.nav-links a:hover { 
+  color: var(--text); 
+  text-shadow: 0 0 10px rgba(255,255,255,0.3);
+}
+.nav-cta {
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--bg);
+  background: var(--text);
+  padding: 12px 28px;
+  border-radius: 2px;
+  text-decoration: none;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.nav-cta:hover { 
+  background: var(--accent-gold); 
+  color: var(--bg);
+  transform: translateY(-2px); 
+  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.2);
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  position: relative;
+  overflow: hidden;
+  padding: 0 60px;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.hero-bg-gradient {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(0, 175, 202, 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 20% 100%, rgba(212, 175, 55, 0.08) 0%, transparent 55%),
+    linear-gradient(180deg, var(--bg) 0%, #0A0D12 100%);
+  animation: slowPulse 8s ease-in-out infinite alternate;
+}
+.hero-lines {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 100px 100px;
+  mask-image: radial-gradient(ellipse 100% 80% at 50% 10%, black 0%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 100% 80% at 50% 10%, black 0%, transparent 80%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 140px;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.hero-eyebrow {
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  opacity: 0;
+  animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+}
+.hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 1px;
+  background: var(--accent-gold);
+  flex-shrink: 0;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 7.5vw, 7.5rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  margin-bottom: 30px;
+  opacity: 0;
+  animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+}
+.hero-title .line-accent {
+  display: block;
+  background: linear-gradient(90deg, var(--text) 0%, var(--accent-warm) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-title .line-italic {
+  display: block;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 0.55em;
+  letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.6);
+  -webkit-text-fill-color: rgba(255,255,255,0.6);
+  margin-top: 20px;
+}
+
+.hero-sub {
+  font-family: var(--font-body);
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+  font-style: italic;
+  color: rgba(244, 241, 237, 0.7);
+  max-width: 580px;
+  line-height: 1.6;
+  margin-bottom: 60px;
+  opacity: 0;
+  animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  opacity: 0;
+  animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--bg);
+  background: var(--accent-gold);
+  padding: 20px 40px;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  flex-shrink: 0;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.15);
+}
+.btn-primary:hover { 
+  background: var(--text); 
+  transform: translateY(-3px); 
+  box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
+}
+.btn-primary svg { width: 16px; height: 16px; flex-shrink: 0; transition: transform 0.4s ease; }
+.btn-primary:hover svg { transform: translateX(6px); }
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+.btn-ghost:hover { 
+  color: var(--text); 
+  text-shadow: 0 0 10px rgba(255,255,255,0.2);
+}
+
+.hero-scroll {
+  position: relative;
+  z-index: 2;
+  padding: 50px 0;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  opacity: 0;
+  animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.2s forwards;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 70px;
+}
+.hero-stat-num {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text);
+  display: block;
+}
+.hero-stat-label {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--muted);
+  display: block;
+  margin-top: 6px;
+  font-style: italic;
+}
+
+.scroll-hint {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.scroll-line {
+  width: 50px;
+  height: 1px;
+  background: rgba(255,255,255,0.1);
+  position: relative;
+  overflow: hidden;
+}
+.scroll-line::after {
+  content: '';
+  position: absolute;
+  left: -100%;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--accent-gold);
+  animation: slideLine 2.5s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+/* ── KEYFRAMES ── */
+@keyframes slideLine {
+  0% { left: -100%; }
+  50% { left: 100%; }
+  100% { left: 100%; }
+}
+@keyframes slowPulse {
+  0% { opacity: 0.8; transform: scale(1); }
+  100% { opacity: 1; transform: scale(1.05); }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ── SECTION COMMON ── */
+.section {
+  padding: 160px 60px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.section-full {
+  padding: 160px 60px;
+}
+
+.label {
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.label::before {
+  content: '';
+  display: block;
+  width: 30px;
+  height: 1px;
+  background: var(--accent-gold);
+  flex-shrink: 0;
+}
+
+.display-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4.5vw, 4.2rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.body-text {
+  font-family: var(--font-body);
+  font-size: 1.3rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ── REVEAL ── */
+.r, .r-left, .r-right {
+  opacity: 0;
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.r { transform: translateY(30px); }
+.r-left { transform: translateX(-30px); }
+.r-right { transform: translateX(30px); }
+.r.visible, .r-left.visible, .r-right.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── MARQUEE BAND ── */
+.marquee-band {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  padding: 24px 0;
+  background: rgba(212, 175, 55, 0.02);
+}
+.marquee-track {
+  display: flex;
+  gap: 0;
+  animation: marquee 35s linear infinite;
+  white-space: nowrap;
+}
+.marquee-item {
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  padding: 0 50px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+}
+.marquee-dot {
+  width: 4px; height: 4px;
+  background: var(--accent-gold);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── ABOUT SPLIT ── */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  align-items: center;
+}
+.about-visual {
+  position: relative;
+  height: 540px;
+}
+.about-card-large {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,175,202,0.06) 0%, rgba(212,175,55,0.08) 100%);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  display: flex;
+  align-items: flex-end;
+  padding: 40px;
+  overflow: hidden;
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+.about-card-large:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 40px rgba(212, 175, 55, 0.05);
+}
+.about-card-large::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 20%, rgba(5,6,8,0.9) 100%);
+}
+.about-glyph {
+  position: absolute;
+  top: 40px; right: 40px;
+  font-family: var(--font-display);
+  font-size: 9rem;
+  font-weight: 900;
+  color: rgba(255,255,255,0.03);
+  line-height: 1;
+  letter-spacing: -0.05em;
+  user-select: none;
+}
+.about-card-label {
+  position: relative;
+  z-index: 1;
+}
+.about-card-label strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 8px;
+}
+.about-card-label p {
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  color: rgba(255,255,255,0.8);
+}
+
+.about-mini-cards {
+  position: absolute;
+  bottom: -25px; right: -25px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.mini-card {
+  background: rgba(10, 13, 18, 0.85);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+.mini-card:hover {
+  transform: translateX(-5px);
+  border-color: rgba(212, 175, 55, 0.3);
+}
+.mini-card-icon { font-size: 1.4rem; }
+.mini-card-text {
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--text);
+  text-transform: uppercase;
+}
+
+/* ── LIST FEATURE ── */
+.feature-list { list-style: none; margin-top: 36px; }
+.feature-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-body);
+  font-size: 1.25rem;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.5;
+}
+.feature-list li:first-child { border-top: 1px solid var(--border); }
+.feature-list li::before {
+  content: '';
+  display: block;
+  width: 6px; height: 6px;
+  background: var(--accent-gold);
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 10px;
+  box-shadow: 0 0 8px var(--accent-gold);
+}
+
+/* ── MARKET SECTION ── */
+.market-section {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.market-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 160px 60px;
+}
+.market-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 90px;
+  align-items: start;
+  margin-top: 80px;
+}
+.competitor-list { list-style: none; }
+.competitor-item {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.5);
+  transition: all 0.3s ease;
+}
+.competitor-item:hover { 
+  color: var(--text); 
+  padding-left: 10px;
+}
+.competitor-num {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--accent-blue);
+  width: 28px;
+  flex-shrink: 0;
+}
+.gap-list { list-style: none; margin-top: 0; }
+.gap-item {
+  display: flex;
+  gap: 20px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--border);
+  transition: transform 0.3s ease;
+}
+.gap-item:hover { transform: translateX(5px); }
+.gap-item:first-child { border-top: 1px solid var(--border); }
+.gap-icon {
+  width: 36px; height: 36px;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 1rem;
+}
+.gap-text strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.gap-text p {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  color: rgba(255,255,255,0.6);
+}
+
+/* ── GEO ── */
+.geo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 70px;
+}
+.geo-card {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 48px;
+  background: var(--surface);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.geo-card:hover {
+  border-color: rgba(212, 175, 55, 0.4);
+  background: var(--surface-hover);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+}
+.geo-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-gold));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s ease;
+}
+.geo-card:hover::before { transform: scaleX(1); }
+.geo-name {
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 20px;
+}
+.geo-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 24px;
+  line-height: 1.25;
+}
+.geo-desc {
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.7;
+}
+.geo-glyph {
+  position: absolute;
+  bottom: -20px; right: -10px;
+  font-family: var(--font-display);
+  font-size: 9rem;
+  font-weight: 900;
+  color: rgba(255,255,255,0.02);
+  line-height: 1;
+  pointer-events: none;
+  transition: color 0.5s ease;
+}
+.geo-card:hover .geo-glyph { color: rgba(255,255,255,0.04); }
+
+/* ── ROUTES ── */
+.routes-section {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+}
+.routes-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 160px 60px;
+}
+.routes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-top: 70px;
+}
+.route-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 44px 36px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  cursor: default;
+}
+.route-item::after {
+  content: attr(data-num);
+  position: absolute;
+  top: 20px; right: 24px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-style: italic;
+  color: rgba(255,255,255,0.1);
+  transition: color 0.4s ease, transform 0.4s ease;
+}
+.route-item:hover {
+  background: rgba(212, 175, 55, 0.03);
+  border-color: rgba(212, 175, 55, 0.3);
+  transform: scale(1.02);
+  z-index: 10;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+.route-item:hover::after { 
+  color: var(--accent-gold);
+  transform: translateX(-5px); 
+}
+.route-tag {
+  font-family: var(--font-display);
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent-blue);
+  margin-bottom: 16px;
+  display: block;
+}
+.route-name {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 16px;
+  line-height: 1.3;
+}
+.route-desc {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.6;
+}
+
+/* ── EXCLUSIVE ── */
+.exclusive-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+  margin-top: 70px;
+}
+.exclusive-visual {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.excl-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 32px 26px;
+  transition: all 0.4s ease;
+}
+.excl-card:hover {
+  border-color: rgba(0, 175, 202, 0.4);
+  background: var(--surface-hover);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+.excl-card:first-child {
+  grid-column: span 2;
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+.excl-icon {
+  font-size: 2.2rem;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 10px rgba(255,255,255,0.1));
+}
+.excl-title {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+.excl-desc {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.6;
+}
+
+/* ── SEASONS ── */
+.seasons-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  margin-top: 70px;
+}
+.season-col {
+  border: 1px solid var(--border);
+  padding: 44px 32px;
+  background: var(--surface);
+  transition: all 0.4s ease;
+}
+.season-col:hover {
+  background: rgba(212, 175, 55, 0.03);
+  border-color: rgba(212, 175, 55, 0.25);
+  transform: scale(1.02);
+  z-index: 5;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+}
+.season-name {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.season-items { list-style: none; }
+.season-items li {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.7);
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  line-height: 1.4;
+  transition: color 0.3s;
+}
+.season-col:hover .season-items li { color: rgba(255,255,255,0.9); }
+
+/* ── LUXURY WHY ── */
+.luxury-section {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+}
+.luxury-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 160px 60px;
+}
+.luxury-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 90px;
+  align-items: end;
+  margin-bottom: 90px;
+}
+.luxury-quote {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 1.8rem;
+  line-height: 1.5;
+  color: rgba(255,255,255,0.6);
+  padding-left: 32px;
+  border-left: 2px solid var(--accent-gold);
+}
+.luxury-pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+.pillar {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 44px 32px;
+  transition: all 0.4s ease;
+}
+.pillar:hover {
+  background: rgba(0, 175, 202, 0.04);
+  border-color: rgba(0, 175, 202, 0.3);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+}
+.pillar-num {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 2.8rem;
+  color: rgba(255,255,255,0.1);
+  display: block;
+  margin-bottom: 20px;
+  transition: color 0.4s ease;
+}
+.pillar:hover .pillar-num { color: var(--accent-blue); }
+.pillar-title {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+.pillar-desc {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.7;
+}
+
+/* ── PRICING ── */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-top: 70px;
+}
+.price-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 56px 40px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.price-card.featured {
+  background: linear-gradient(160deg, rgba(212, 175, 55, 0.08) 0%, rgba(0, 175, 202, 0.05) 100%);
+  border-color: rgba(212, 175, 55, 0.3);
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.5);
+}
+.price-card:hover {
+  border-color: rgba(212, 175, 55, 0.5);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+  z-index: 2;
+}
+.price-badge {
+  font-family: var(--font-display);
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, var(--accent-gold), var(--accent-warm));
+  color: #000;
+  padding: 6px 14px;
+  border-radius: 2px;
+  display: inline-block;
+  margin-bottom: 28px;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+}
+.price-tier {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 16px;
+}
+.price-amount {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
+  font-weight: 900;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+  line-height: 1;
+}
+.price-duration {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 36px;
+  font-style: italic;
+}
+.price-includes { list-style: none; }
+.price-includes li {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.4;
+}
+.price-includes li::before {
+  content: '';
+  display: block;
+  width: 6px; height: 6px;
+  background: var(--accent-gold);
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 10px;
+}
+
+/* ── ECONOMY ── */
+.economy-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 90px;
+  align-items: start;
+  margin-top: 70px;
+}
+.economy-scenario {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 48px;
+  margin-bottom: 24px;
+  transition: border-color 0.4s ease;
+}
+.economy-scenario:hover {
+  border-color: rgba(255,255,255,0.15);
+}
+.economy-scenario h4 {
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 24px;
+}
+.econ-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+}
+.econ-row:last-child { border-bottom: none; padding-bottom: 0; }
+.econ-label { color: rgba(255,255,255,0.6); }
+.econ-val { font-weight: 700; color: var(--text); }
+.econ-val.profit { color: var(--accent-warm); }
+
+/* ── TEAM ── */
+.team-section {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+}
+.team-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 160px 60px;
+}
+.team-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin-top: 70px;
+}
+.team-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 60px 50px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s ease;
+}
+.team-card:hover { 
+  border-color: rgba(212, 175, 55, 0.3);
+  background: var(--surface-hover);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+.team-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-gold), var(--accent-blue));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.team-card:hover::before { transform: scaleX(1); }
+.team-initial {
+  font-family: var(--font-display);
+  font-size: 4.5rem;
+  font-weight: 900;
+  line-height: 1;
+  color: rgba(255,255,255,0.04);
+  margin-bottom: 36px;
+  display: block;
+  transition: color 0.4s ease;
+}
+.team-card:hover .team-initial { color: rgba(212, 175, 55, 0.1); }
+.team-name {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+}
+.team-role {
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 32px;
+  display: block;
+}
+.team-traits { list-style: none; }
+.team-traits li {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.7);
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.team-traits li::before {
+  content: '';
+  width: 5px; height: 5px;
+  background: var(--accent-blue);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── TOTAL BOX ── */
+.total-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32px 40px;
+  background: linear-gradient(90deg, rgba(212, 175, 55, 0.08), rgba(0, 175, 202, 0.04));
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 4px;
+  margin-top: 28px;
+  box-shadow: inset 0 0 30px rgba(0,0,0,0.3);
+}
+.total-label {
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+}
+.total-val {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--accent-warm);
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+}
+
+/* ── CLOSING CTA ── */
+.cta-section {
+  background: linear-gradient(180deg, var(--bg2) 0%, #030405 100%);
+  border-top: 1px solid var(--border);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 100%, rgba(212, 175, 55, 0.08) 0%, transparent 65%);
+  pointer-events: none;
+}
+.cta-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 180px 60px;
+  position: relative;
+  z-index: 1;
+}
+.cta-super {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 1.4rem;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 28px;
+}
+.cta-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 5.5vw, 5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin-bottom: 24px;
+}
+.cta-title span {
+  background: linear-gradient(90deg, var(--accent-gold), var(--accent-warm));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.cta-sub {
+  font-family: var(--font-body);
+  font-size: 1.3rem;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 60px;
+  font-style: italic;
+  line-height: 1.6;
+}
+.cta-contacts {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+.contact-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 32px;
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--text);
+  background: var(--surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.contact-pill:hover {
+  border-color: var(--accent-gold);
+  background: rgba(212, 175, 55, 0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+.contact-pill svg, .contact-pill img {
+  width: 20px; height: 20px;
+  flex-shrink: 0;
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 40px 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  background: var(--bg);
+}
+.footer-logo {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  color: var(--text);
+}
+.footer-copy {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: rgba(255,255,255,0.4);
+}
+.footer-loc {
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.footer-loc::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--accent-gold);
+  border-radius: 50%;
+}
+
+/* Остальные мелкие компоненты (roadmap, media, finance) унаследуют общие улучшения Section и Grid */
+.finance-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+  gap: 20px;
+}
+.finance-item:first-child { border-top: 1px solid var(--border); }
+.finance-name {
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  color: rgba(255,255,255,0.7);
+  flex: 1;
+}
+.finance-amount {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text);
+  flex-shrink: 0;
+}
+
+.tranche-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 70px; }
+.tranche-card { background: var(--surface); border: 1px solid var(--border); padding: 50px 36px; position: relative; transition: all 0.4s ease; }
+.tranche-card:hover { border-color: rgba(212, 175, 55, 0.3); background: var(--surface-hover); transform: scale(1.02); z-index: 5; box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
+.tranche-num { font-family: var(--font-body); font-style: italic; font-size: 4.5rem; color: rgba(255,255,255,0.05); line-height: 1; margin-bottom: 24px; display: block; transition: color 0.4s; }
+.tranche-card:hover .tranche-num { color: rgba(212, 175, 55, 0.15); }
+.tranche-title { font-family: var(--font-display); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text); margin-bottom: 10px; }
+.tranche-amount { font-family: var(--font-display); font-size: 1.8rem; font-weight: 900; color: var(--accent-warm); letter-spacing: -0.02em; margin-bottom: 32px; display: block; }
+.tranche-items { list-style: none; }
+.tranche-items li { font-family: var(--font-body); font-size: 1.1rem; color: rgba(255,255,255,0.65); padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04); display: flex; gap: 12px; align-items: flex-start; line-height: 1.4; }
+.tranche-items li::before { content: '—'; color: var(--accent-gold); flex-shrink: 0; opacity: 0.8; }
+
+.roadmap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 70px; }
+.road-card { background: var(--surface); border: 1px solid var(--border); padding: 50px 36px; position: relative; transition: all 0.4s ease; }
+.road-card:hover { border-color: rgba(0, 175, 202, 0.4); background: var(--surface-hover); transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
+.road-phase { font-family: var(--font-display); font-size: 0.55rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent-blue); margin-bottom: 18px; display: block; }
+.road-title { font-family: var(--font-display); font-size: 1.2rem; font-weight: 800; color: var(--text); margin-bottom: 28px; line-height: 1.2; }
+.road-items { list-style: none; }
+.road-items li { font-family: var(--font-body); font-size: 1.1rem; color: rgba(255,255,255,0.65); padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04); line-height: 1.4; }
+
+.channel-list { list-style: none; margin-top: 10px; }
+.channel-item { display: flex; align-items: center; gap: 20px; padding: 24px 0; border-bottom: 1px solid var(--border); transition: gap 0.3s ease; }
+.channel-item:hover { gap: 28px; }
+.channel-icon { width: 50px; height: 50px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; transition: all 0.3s ease; }
+.channel-item:hover .channel-icon { border-color: var(--accent-gold); background: rgba(212, 175, 55, 0.1); }
+.channel-info strong { display: block; font-family: var(--font-display); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text); margin-bottom: 6px; }
+.channel-info p { font-family: var(--font-body); font-size: 1.1rem; color: rgba(255,255,255,0.6); }
+.media-quote { font-family: var(--font-body); font-style: italic; font-size: 1.5rem; line-height: 1.6; color: rgba(255,255,255,0.6); padding: 40px; border: 1px solid var(--border); border-radius: 4px; background: var(--surface); position: relative; }
+.media-quote::before { content: '"'; position: absolute; top: 10px; left: 20px; font-family: var(--font-display); font-size: 4rem; color: rgba(212, 175, 55, 0.2); }
+.media-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 90px; align-items: start; margin-top: 70px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  nav { padding: 20px 24px; }
+  nav.scrolled { padding: 14px 24px; }
+  .nav-links { display: none; }
+  .hero { padding: 0 24px; }
+  .section, .market-inner, .routes-inner, .luxury-inner, .team-inner { padding: 100px 24px; }
+  .section-full { padding: 100px 24px; }
+  .about-grid, .market-grid, .exclusive-grid, .economy-grid, .media-grid, .luxury-header { grid-template-columns: 1fr; gap: 50px; }
+  .geo-grid, .team-grid, .tranche-grid, .pricing-grid, .roadmap-grid { grid-template-columns: 1fr; gap: 2px; }
+  .routes-grid { grid-template-columns: 1fr 1fr; }
+  .seasons-grid { grid-template-columns: 1fr 1fr; }
+  .luxury-pillars { grid-template-columns: 1fr; }
+  .hero-stats { gap: 32px; flex-wrap: wrap; }
+  .about-visual { height: 350px; }
+  footer { padding: 30px 24px; flex-direction: column; align-items: flex-start; gap: 16px; }
+  .cta-inner { padding: 120px 24px; }
+  .hero-content { padding-top: 100px; }
+}
+@media (max-width: 540px) {
+  .routes-grid { grid-template-columns: 1fr; }
+  .seasons-grid { grid-template-columns: 1fr 1fr; }
+  .exclusive-visual { grid-template-columns: 1fr; }
+  .excl-card:first-child { grid-column: span 1; display: block; }
+  .cta-contacts { flex-direction: column; align-items: stretch; }
+  .contact-pill { justify-content: center; }
+  .hero-scroll { flex-direction: column; align-items: flex-start; gap: 30px; }
+}
+</style>
+
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<nav id="nav">
+  <a href="#" class="nav-logo">NOMADIA</a>
+  <ul class="nav-links">
+    <li><a href="#about">О проекте</a></li>
+    <li><a href="#routes">Маршруты</a></li>
+    <li><a href="#pricing">Цены</a></li>
+    <li><a href="#team">Команда</a></li>
+    <li><a href="#finance">Финансы</a></li>
+  </ul>
+  <a href="tel:+77007880027" class="nav-cta">Связаться</a>
+</nav>
+
+<header class="hero">
+  <div class="hero-bg">
+    <div class="hero-bg-gradient"></div>
+    <div class="hero-lines"></div>
+  </div>
+
+  <div class="hero-content">
+    <span class="hero-eyebrow">Инвестиционная возможность · Центральная Азия</span>
+    <h1 class="hero-title">
+      <span class="line-accent">NOMADIA</span>
+      <span class="line-italic">Luxury Expeditions in Central Asia</span>
+    </h1>
+    <p class="hero-sub">Мы не продаём туры. Мы создаём редкий, персональный и глубоко продуманный опыт путешествий.</p>
+    <div class="hero-actions">
+      <a href="#about" class="btn-primary">
+        Узнать больше
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="tel:+77007880027" class="btn-ghost">+7 700 788 0027</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="hero-stats">
+      <div>
+        <span class="hero-stat-num">$18K+</span>
+        <span class="hero-stat-label">прибыль с одного тура</span>
+      </div>
+      <div>
+        <span class="hero-stat-num">70–80%</span>
+        <span class="hero-stat-label">маржа сувениров</span>
+      </div>
+      <div>
+        <span class="hero-stat-num">20 млн ₸</span>
+        <span class="hero-stat-label">инвестиционный запрос</span>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <div class="scroll-line"></div>
+      Скролл
+    </div>
+  </div>
+</header>
+
+<div class="marquee-band">
+  <div class="marquee-track">
+    <span class="marquee-item"><span class="marquee-dot"></span>Казахстан</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Узбекистан</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Мангыстау</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Байконур</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Чарын</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Кольсай</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Алтын-Эмель</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Самарканд</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Бухара</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Founder-Led</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Private Format</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Luxury Segment</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Казахстан</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Узбекистан</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Мангыстау</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Байконур</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Чарын</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Кольсай</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Алтын-Эмель</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Самарканд</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Бухара</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Founder-Led</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Private Format</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Luxury Segment</span>
+  </div>
+</div>
+
+<section id="about">
+  <div class="section">
+    <div class="about-grid">
+      <div class="r-left">
+        <span class="label">О проекте</span>
+        <h2 class="display-title" style="margin-bottom:32px;">Nomadia — это не турфирма</h2>
+        <p class="body-text" style="margin-bottom:28px;">
+          Это luxury expedition бренд, который создаёт редкий, персональный и глубоко продуманный опыт путешествий по Центральной Азии. Мы не продаём стандартные маршруты.
+        </p>
+        <ul class="feature-list">
+          <li>Экспедиции с основателем</li>
+          <li>Доступ к уникальным локациям, которые нельзя найти в Google</li>
+          <li>Живой культурный опыт с местными семьями</li>
+          <li>Сильная визуальная память — видео, фото, история</li>
+          <li>Персонализированные маршруты под каждого клиента</li>
+        </ul>
+      </div>
+      <div class="r-right">
+        <div class="about-visual">
+          <div class="about-card-large">
+            <div class="about-glyph">KZ</div>
+            <div class="about-card-label">
+              <strong>Концепция</strong>
+              <p>Это не просто туризм. Это curated experience.</p>
+            </div>
+          </div>
+          <div class="about-mini-cards">
+            <div class="mini-card">
+              <span class="mini-card-icon">🦅</span>
+              <span class="mini-card-text">Охота с беркутами</span>
+            </div>
+            <div class="mini-card">
+              <span class="mini-card-icon">🏕️</span>
+              <span class="mini-card-text">Настоящие кочевые юрты</span>
+            </div>
+            <div class="mini-card">
+              <span class="mini-card-icon">🎬</span>
+              <span class="mini-card-text">Cinematic контент</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="market-section">
+  <div class="market-inner">
+    <span class="label r">Рынок и возможность</span>
+    <h2 class="display-title r" style="max-width:700px;">Спрос есть.<br/>Сильного бренда — нет.</h2>
+    <div class="market-grid">
+      <div class="r">
+        <p class="body-text" style="margin-bottom:36px;">В Алматы уже работают конкуренты. Это значит одно: рынок существует. Но у него очевидные слабости — и мы заходим именно туда.</p>
+        <ul class="competitor-list">
+          <li class="competitor-item"><span class="competitor-num">01</span>BALTAS</li>
+          <li class="competitor-item"><span class="competitor-num">02</span>KolsaiTour</li>
+          <li class="competitor-item"><span class="competitor-num">03</span>Jeeptours.kz</li>
+          <li class="competitor-item"><span class="competitor-num">04</span>SUVtours</li>
+        </ul>
+        <p class="body-text" style="margin-top:28px;">Мы не первые на этом рынке. Но у нас есть возможность стать лучшим и самым сильным брендом в премиальной нише.</p>
+      </div>
+      <div class="r" style="transition-delay:0.15s;">
+        <ul class="gap-list">
+          <li class="gap-item">
+            <div class="gap-icon">🌐</div>
+            <div class="gap-text"><strong>Нет международного бренда</strong><p>Слабый маркетинг на США и Азию</p></div>
+          </li>
+          <li class="gap-item">
+            <div class="gap-icon">🗺️</div>
+            <div class="gap-text"><strong>Стандартные маршруты</strong><p>Без уникального контента и опыта</p></div>
+          </li>
+          <li class="gap-item">
+            <div class="gap-icon">💎</div>
+            <div class="gap-text"><strong>Отсутствует luxury-сегмент</strong><p>Никто не работает с high-ticket клиентами</p></div>
+          </li>
+          <li class="gap-item">
+            <div class="gap-icon">👤</div>
+            <div class="gap-text"><strong>Нет founder-led модели</strong><p>Нет системной работы с медиа</p></div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="geo">
+  <div class="section">
+    <span class="label r">География и стратегия</span>
+    <h2 class="display-title r" style="max-width:700px; margin-bottom:24px;">База — Алматы.<br/>Горизонт — вся Центральная Азия.</h2>
+    <p class="body-text r" style="max-width:650px; margin-bottom:0;">Наш подход: старт из Алматы, продажи через Казахстан + Узбекистан, постепенное масштабирование в формат luxury expeditions across Central Asia.</p>
+    <div class="geo-grid">
+      <div class="geo-card r">
+        <div class="geo-name">Казахстан</div>
+        <div class="geo-title">Уникальность, масштаб, природа и wow-эффект</div>
+        <p class="geo-desc">Мангыстау, Байконур, горы и степи — природные локации, которые невозможно найти в стандартных турах. Основа нашего флагманского продукта.</p>
+        <div class="geo-glyph">KZ</div>
+      </div>
+      <div class="geo-card r" style="transition-delay:0.1s;">
+        <div class="geo-name">Узбекистан</div>
+        <div class="geo-title">Более лёгкая точка входа для иностранного клиента</div>
+        <p class="geo-desc">Самарканд, Бухара — культурный маршрут, понятный западной аудитории. Стратегически важен для масштабирования и комбинированных туров.</p>
+        <div class="geo-glyph">UZ</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="routes-section" id="routes">
+  <div class="routes-inner">
+    <span class="label r">Продукт и направления</span>
+    <h2 class="display-title r" style="max-width:700px;">Маршруты, которые нельзя купить в Booking</h2>
+    <div class="routes-grid">
+      <div class="route-item r" data-num="01">
+        <span class="route-tag">Базовый</span>
+        <div class="route-name">Алматы</div>
+        <p class="route-desc">Городской маршрут, этно-опыт и культурное погружение. Точка входа в бренд.</p>
+      </div>
+      <div class="route-item r" data-num="02" style="transition-delay:0.05s;">
+        <span class="route-tag">Базовый</span>
+        <div class="route-name">Чарын</div>
+        <p class="route-desc">Каньон мирового уровня. Первый wow-эффект для иностранного клиента.</p>
+      </div>
+      <div class="route-item r" data-num="03" style="transition-delay:0.1s;">
+        <span class="route-tag">Базовый</span>
+        <div class="route-name">Кольсай / Каинды</div>
+        <p class="route-desc">Горные озёра с кристальной водой. Природа, юрты, лошади.</p>
+      </div>
+      <div class="route-item r" data-num="04" style="transition-delay:0.15s;">
+        <span class="route-tag">Базовый</span>
+        <div class="route-name">Алтын-Эмель</div>
+        <p class="route-desc">Поющий бархан, сакские курганы, дикая природа Казахстана.</p>
+      </div>
+      <div class="route-item r" data-num="05" style="transition-delay:0.2s;">
+        <span class="route-tag">Флагман</span>
+        <div class="route-name">Мангыстау</div>
+        <p class="route-desc">Одна из самых сильных природных и визуальных локаций региона. Марсианские пейзажи, меловые каньоны, сакральные места.</p>
+      </div>
+      <div class="route-item r" data-num="06" style="transition-delay:0.25s;">
+        <span class="route-tag">Эксклюзив</span>
+        <div class="route-name">Байконур</div>
+        <p class="route-desc">Редкий и дорогой экспедиционный опыт. Легендарный космодром с ограниченным доступом.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="exclusive">
+  <div class="section">
+    <span class="label r">Эксклюзивный опыт</span>
+    <h2 class="display-title r" style="max-width:800px; margin-bottom:0;">Опыт, который нельзя купить в стандартных турах</h2>
+    <div class="exclusive-grid">
+      <div class="r">
+        <p class="body-text" style="margin-bottom:32px; margin-top:32px;">Именно это даёт проекту не просто туристическую, а эмоциональную и статусную ценность.</p>
+        <ul class="feature-list">
+          <li>Проживание в настоящих кочевых юртах, а не в туристических декорациях</li>
+          <li>Взаимодействие с местными семьями и носителями культуры</li>
+          <li>Охота с беркутами — живой казахский опыт</li>
+          <li>Легально организованные охотничьи программы</li>
+          <li>Наблюдение редкой природы, включая снежного барса</li>
+          <li>Экспедиционные маршруты в закрытые зоны</li>
+        </ul>
+      </div>
+      <div class="exclusive-visual r" style="transition-delay:0.15s;">
+        <div class="excl-card">
+          <span class="excl-icon">🦅</span>
+          <div>
+            <div class="excl-title">Охота с беркутами</div>
+            <p class="excl-desc">Многовековая казахская традиция. Личное взаимодействие с беркутчи и их птицами в степи.</p>
+          </div>
+        </div>
+        <div class="excl-card">
+          <span class="excl-icon">🏕️</span>
+          <div class="excl-title">Юрты</div>
+          <p class="excl-desc">Настоящие, не туристические. С семьями, которые так живут.</p>
+        </div>
+        <div class="excl-card">
+          <span class="excl-icon">🐆</span>
+          <div class="excl-title">Снежный барс</div>
+          <p class="excl-desc">Фотоловушки и экспедиционные форматы в горах Тянь-Шаня.</p>
+        </div>
+        <div class="excl-card">
+          <span class="excl-icon">🚀</span>
+          <div class="excl-title">Байконур</div>
+          <p class="excl-desc">Легендарный космодром. Закрытый для большинства туристов.</p>
+        </div>
+        <div class="excl-card">
+          <span class="excl-icon">🎬</span>
+          <div class="excl-title">Cinematic контент</div>
+          <p class="excl-desc">Видеограф как часть продукта. Ваша история — это и реклама бренда.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg2); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+  <div class="section">
+    <span class="label r">Сезонная логика</span>
+    <h2 class="display-title r" style="max-width:600px;">Продукт работает круглый год</h2>
+    <div class="seasons-grid" style="margin-top:60px;">
+      <div class="season-col r">
+        <div class="season-name">🌸 Весна</div>
+        <ul class="season-items">
+          <li>Узбекистан</li>
+          <li>Наурыз</li>
+          <li>Мангыстау</li>
+          <li>Культурные маршруты</li>
+        </ul>
+      </div>
+      <div class="season-col r" style="transition-delay:0.1s;">
+        <div class="season-name">☀️ Лето</div>
+        <ul class="season-items">
+          <li>Алматы регион</li>
+          <li>Горы</li>
+          <li>Озёра</li>
+          <li>Каньоны</li>
+        </ul>
+      </div>
+      <div class="season-col r" style="transition-delay:0.2s;">
+        <div class="season-name">🍂 Осень</div>
+        <ul class="season-items">
+          <li>Узбекистан</li>
+          <li>Мангыстау</li>
+          <li>Степные маршруты</li>
+        </ul>
+      </div>
+      <div class="season-col r" style="transition-delay:0.3s;">
+        <div class="season-name">❄️ Зима</div>
+        <ul class="season-items">
+          <li>Алматы</li>
+          <li>Этно-опыт</li>
+          <li>Горячие источники</li>
+          <li>Байконур</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="luxury-section">
+  <div class="luxury-inner">
+    <span class="label r">Почему это Luxury</span>
+    <h2 class="display-title r" style="max-width:800px; margin-bottom:50px;">Luxury — это доступ и уникальность, а не просто цена</h2>
+    <div class="luxury-header">
+      <p class="body-text r">Nomadia — это luxury, потому что мы строим продукт на основе малых групп или private формата, личного сопровождения, редких локаций и высокого уровня сервиса. Клиент платит не за передвижение. Он платит за опыт, который невозможно собрать самостоятельно.</p>
+      <blockquote class="luxury-quote r" style="transition-delay:0.15s;">"После поездки у клиента остаётся фото, видео, narrative. Он не просто съездил — он получил опыт, который можно рассказать."</blockquote>
+    </div>
+    <div class="luxury-pillars">
+      <div class="pillar r">
+        <span class="pillar-num">01</span>
+        <div class="pillar-title">Уверенность</div>
+        <p class="pillar-desc">Клиент едет в регион, который он не понимает. Мы берём на себя весь процесс — от логистики до культурного контекста.</p>
+      </div>
+      <div class="pillar r" style="transition-delay:0.1s;">
+        <span class="pillar-num">02</span>
+        <div class="pillar-title">Доступ</div>
+        <p class="pillar-desc">Клиент попадает туда, куда нельзя попасть через Booking и Google: настоящие юрты, семьи, закрытые маршруты, редкие природные зоны.</p>
+      </div>
+      <div class="pillar r" style="transition-delay:0.2s;">
+        <span class="pillar-num">03</span>
+        <div class="pillar-title">Время</div>
+        <p class="pillar-desc">Мы экономим клиенту недели подготовки. Он получает готовый, продуманный маршрут с контентом в подарок.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="section">
+    <span class="label r">Ценовая модель</span>
+    <h2 class="display-title r" style="max-width:700px;">Три уровня продукта. Одно качество.</h2>
+    <div class="pricing-grid">
+      <div class="price-card r">
+        <div class="price-tier">Premium · Entry</div>
+        <div class="price-amount">$3 500–4 500</div>
+        <p class="price-duration">5–7 дней · малые группы</p>
+        <ul class="price-includes">
+          <li>Curated маршрут</li>
+          <li>Комфортное проживание</li>
+          <li>Транспорт и сопровождение</li>
+          <li>Базовый контент</li>
+          <li>Точка входа в бренд</li>
+        </ul>
+      </div>
+      <div class="price-card featured r" style="transition-delay:0.1s;">
+        <div class="price-badge">Ядро бизнеса</div>
+        <div class="price-tier">Signature · Основной</div>
+        <div class="price-amount">$6 500–9 000</div>
+        <p class="price-duration">Founder-led экспедиция</p>
+        <ul class="price-includes">
+          <li>Основатель как гид</li>
+          <li>Редкие маршруты</li>
+          <li>Юрты + природа + культура</li>
+          <li>Контент как часть продукта</li>
+          <li>Высокая персонализация</li>
+        </ul>
+      </div>
+      <div class="price-card r" style="transition-delay:0.2s;">
+        <div class="price-tier">Bespoke · Private</div>
+        <div class="price-amount">$12 000–18 000+</div>
+        <p class="price-duration">Полностью кастомный</p>
+        <ul class="price-includes">
+          <li>Private формат</li>
+          <li>Мангыстау / Байконур</li>
+          <li>Доступ к редким локациям</li>
+          <li>Высочайший уровень сервиса</li>
+          <li>High-margin продукт</li>
+        </ul>
+      </div>
+    </div>
+    <p class="body-text r" style="margin-top:50px; text-align:center; max-width:900px; margin-inline:auto;">Для клиента из США — $3 500–10 000+ это нормальный диапазон для adventure luxury. Аналогичные форматы в других странах стоят столько же или дороже. Вопрос не в цене — вопрос в ценности.</p>
+  </div>
+</section>
+
+<section style="background:var(--bg2); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+  <div class="section">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center;">
+      <div class="r">
+        <span class="label">Дополнительная прибыль</span>
+        <h2 class="display-title" style="margin-bottom:24px;">Премиальные сувениры и артефакты</h2>
+        <p class="body-text">Отдельным источником прибыли станут коллекционные предметы. Маржа по этим продуктам — <strong style="color:var(--accent-warm);">70–80%</strong>. Это усиливает не только прибыль, но и ощущение luxury-бренда.</p>
+      </div>
+      <div class="r" style="transition-delay:0.15s;">
+        <ul class="feature-list" style="margin-top:0;">
+          <li>Кожаные travel journals</li>
+          <li>Войлочные изделия ручной работы</li>
+          <li>Artisan предметы</li>
+          <li>Фотоальбомы экспедиции</li>
+          <li>Curated gift boxes</li>
+        </ul>
+        <div class="total-box" style="margin-top:32px;">
+          <span class="total-label">Маржа</span>
+          <span class="total-val">70–80%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="economy">
+  <div class="section">
+    <span class="label r">Экономика тура</span>
+    <h2 class="display-title r" style="max-width:700px;">Цифры, которые говорят сами за себя</h2>
+    <div class="economy-grid">
+      <div class="r">
+        <div class="economy-scenario">
+          <h4>Один тур · Пример</h4>
+          <div class="econ-row"><span class="econ-label">4 клиента × $7 500</span><span class="econ-val">$30 000</span></div>
+          <div class="econ-row"><span class="econ-label">Расходы</span><span class="econ-val">$9 000–12 000</span></div>
+          <div class="econ-row"><span class="econ-label">Прибыль</span><span class="econ-val profit">$18 000+</span></div>
+        </div>
+        <div class="economy-scenario">
+          <h4>Доход по этапам</h4>
+          <div class="econ-row"><span class="econ-label">Пилот (2 кл. × $3 500)</span><span class="econ-val">~$7 000</span></div>
+          <div class="econ-row"><span class="econ-label">Основной (4 кл. × $7 500)</span><span class="econ-val">$30 000</span></div>
+          <div class="econ-row"><span class="econ-label">Стабильный месяц</span><span class="econ-val profit">$40–50K</span></div>
+        </div>
+      </div>
+      <div class="r" style="transition-delay:0.15s;">
+        <p class="body-text" style="margin-bottom:32px;">Почему клиент платит $3 500+? Он покупает не тур по Казахстану. Он покупает уверенность, доступ, персональный опыт, сэкономленное время и историю, которую можно рассказать.</p>
+        <div class="economy-scenario">
+          <h4>Как мы находим клиентов</h4>
+          <div class="econ-row"><span class="econ-label">Контент (Insta / TikTok)</span><span class="econ-val" style="color:var(--accent-gold);">Доверие</span></div>
+          <div class="econ-row"><span class="econ-label">Личные продажи</span><span class="econ-val" style="color:var(--accent-gold);">High-ticket</span></div>
+          <div class="econ-row"><span class="econ-label">Travel advisors</span><span class="econ-val" style="color:var(--accent-gold);">Объём</span></div>
+          <div class="econ-row"><span class="econ-label">Niche influencers</span><span class="econ-val" style="color:var(--accent-gold);">Скорость</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg2); border-top:1px solid var(--border);">
+  <div class="section">
+    <span class="label r">Медиа и рост</span>
+    <h2 class="display-title r" style="max-width:700px; margin-bottom:0;">Nomadia строится как медиа-бренд</h2>
+    <div class="media-grid">
+      <div class="r">
+        <p class="body-text" style="margin-top:32px; margin-bottom:32px;">Контент для нас — это не просто реклама. Это ключевой инструмент доверия, узнаваемости и продаж.</p>
+        <ul class="channel-list">
+          <li class="channel-item">
+            <div class="channel-icon">📸</div>
+            <div class="channel-info"><strong>Instagram</strong><p>Основной визуальный канал. Founder как лицо бренда.</p></div>
+          </li>
+          <li class="channel-item">
+            <div class="channel-icon">🎵</div>
+            <div class="channel-info"><strong>TikTok</strong><p>Вирусный охват международной аудитории.</p></div>
+          </li>
+          <li class="channel-item">
+            <div class="channel-icon">🎬</div>
+            <div class="channel-info"><strong>Видеограф в команде</strong><p>Живые экспедиционные съёмки как часть продукта.</p></div>
+          </li>
+          <li class="channel-item">
+            <div class="channel-icon">🌟</div>
+            <div class="channel-info"><strong>Коллаборации</strong><p>Niche travel creators. Будущее — Dimash Kudaibergen.</p></div>
+          </li>
+        </ul>
+      </div>
+      <div class="r" style="transition-delay:0.15s; display:flex; align-items:center;">
+        <blockquote class="media-quote">Мы закладываем активный контент с самого первого дня. Основатель — это не просто менеджер. Это лицо, голос и доверие бренда.</blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="team-section" id="team">
+  <div class="team-inner">
+    <span class="label r">Команда основателей</span>
+    <h2 class="display-title r" style="max-width:800px; margin-bottom:0;">Клиент покупает людей, которым доверяет</h2>
+    <p class="body-text r" style="max-width:750px; margin-top:28px;">Nomadia строится как founder-based проект. В high-ticket travel клиент покупает не только маршрут, но и наш вкус, наш доступ, нашу кураторскую работу и нашу способность сделать поездку сильной, редкой и безопасной.</p>
+    <div class="team-grid">
+      <div class="team-card r">
+        <span class="team-initial">Р</span>
+        <div class="team-name">Ренат</div>
+        <span class="team-role">Co-Founder · Operations & Client Relations</span>
+        <ul class="team-traits">
+          <li>Опыт жизни и работы в США</li>
+          <li>10+ лет в международном образовании</li>
+          <li>Глубокое понимание американского клиента</li>
+          <li>Психолог по образованию</li>
+          <li>Преподаватель английского языка</li>
+          <li>Сильный нетворк: США, Европа, другие страны</li>
+        </ul>
+      </div>
+      <div class="team-card r" style="transition-delay:0.15s;">
+        <span class="team-initial">Р</span>
+        <div class="team-name">Рахат</div>
+        <span class="team-role">Co-Founder · Brand Face & Creative</span>
+        <ul class="team-traits">
+          <li>IELTS 8.0 — высокий уровень английского</li>
+          <li>Международная журналистика</li>
+          <li>Обучение в Малайзии</li>
+          <li>5 языков</li>
+          <li>Нетворк: США, Европа, Малайзия, Индия, Турция</li>
+          <li>Глубокое понимание культуры Центральной Азии</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="finance">
+  <div class="section">
+    <span class="label r">Финансовая модель</span>
+    <h2 class="display-title r" style="max-width:700px;">Инвестиционный запрос</h2>
+    <div class="total-box r" style="margin-top:40px; margin-bottom:60px;">
+      <span class="total-label">Общий инвестиционный запрос</span>
+      <span class="total-val">20 000 000 ₸</span>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:80px;">
+      <div class="r">
+        <p style="font-family:var(--font-display); font-size:0.65rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--muted); margin-bottom:24px;">Ежемесячный burn</p>
+        <div class="finance-item"><span class="finance-name">Рахат</span><span class="finance-amount">600 000 ₸</span></div>
+        <div class="finance-item"><span class="finance-name">Ренат</span><span class="finance-amount">600 000 ₸</span></div>
+        <div class="finance-item"><span class="finance-name">SMM</span><span class="finance-amount">250 000 ₸</span></div>
+        <div class="finance-item"><span class="finance-name">Таргетированная реклама</span><span class="finance-amount">600 000 ₸</span></div>
+        <div class="finance-item"><span class="finance-name">Видеограф</span><span class="finance-amount">500 000 ₸</span></div>
+        <div class="finance-item"><span class="finance-name">Admin / CRM</span><span class="finance-amount">250 000 ₸</span></div>
+        <div class="finance-item"><span class="finance-name">Операционные расходы</span><span class="finance-amount">200 000 ₸</span></div>
+        <div class="total-box" style="margin-top:24px;">
+          <span class="total-label">Итого / месяц</span>
+          <span class="total-val">3 000 000 ₸</span>
+        </div>
+        <div style="margin-top:20px; padding:24px 32px; border:1px solid var(--border); border-radius:4px; background:var(--surface);">
+          <div class="econ-row" style="padding:0; border:none;"><span class="econ-label">Runway (3 месяца)</span><span class="econ-val" style="color:var(--accent-gold);">9 000 000 ₸</span></div>
+        </div>
+      </div>
+      <div class="r" style="transition-delay:0.15s;">
+        <p style="font-family:var(--font-display); font-size:0.65rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--muted); margin-bottom:24px;">Разовые инвестиции</p>
+        <div class="finance-item"><span class="finance-name">Техника и контент</span><span class="finance-amount">~800 000 ₸</span></div>
+        <div class="finance-item"><span class="finance-name">Одежда и визуальный образ</span><span class="finance-amount">500 000 ₸</span></div>
+        <div class="finance-item"><span class="finance-name">Лендинг</span><span class="finance-amount">600 000 ₸</span></div>
+        <div class="finance-item"><span class="finance-name">Видеопродакшн</span><span class="finance-amount">500 000 ₸</span></div>
+        <div class="finance-item"><span class="finance-name">Тест-экспедиции Алматы</span><span class="finance-amount">1 500 000 ₸</span></div>
+        <div class="finance-item"><span class="finance-name">Узбекистан</span><span class="finance-amount">800 000 ₸</span></div>
+        <div class="finance-item"><span class="finance-name">Партнёрства и связи</span><span class="finance-amount">300 000 ₸</span></div>
+        <div class="finance-item"><span class="finance-name">Юридические расходы</span><span class="finance-amount">600 000 ₸</span></div>
+        <div class="finance-item"><span class="finance-name">Резерв</span><span class="finance-amount">1 000 000 ₸</span></div>
+        <div class="total-box" style="margin-top:24px;">
+          <span class="total-label">Итого разовые</span>
+          <span class="total-val">~7 000 000 ₸</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg2); border-top:1px solid var(--border);">
+  <div class="section">
+    <span class="label r">Траншевая структура</span>
+    <h2 class="display-title r" style="max-width:700px;">Три этапа — чёткий план действий</h2>
+    <div class="tranche-grid">
+      <div class="tranche-card r">
+        <span class="tranche-num">1</span>
+        <div class="tranche-title">Запуск</div>
+        <span class="tranche-amount">8 000 000 ₸</span>
+        <ul class="tranche-items">
+          <li>Создание контента</li>
+          <li>Видеограф</li>
+          <li>Лендинг</li>
+          <li>Техника</li>
+          <li>Одежда и образ</li>
+          <li>Тест-экспедиции</li>
+          <li>Зарплаты</li>
+          <li>Запуск таргета</li>
+        </ul>
+      </div>
+      <div class="tranche-card r" style="transition-delay:0.1s;">
+        <span class="tranche-num">2</span>
+        <div class="tranche-title">Тест продукта</div>
+        <span class="tranche-amount">6 000 000 ₸</span>
+        <ul class="tranche-items">
+          <li>Узбекистан</li>
+          <li>Маркетинг</li>
+          <li>SMM</li>
+          <li>Лидогенерация</li>
+          <li>Зарплаты</li>
+        </ul>
+      </div>
+      <div class="tranche-card r" style="transition-delay:0.2s;">
+        <span class="tranche-num">3</span>
+        <div class="tranche-title">Первые продажи</div>
+        <span class="tranche-amount">6 000 000 ₸</span>
+        <ul class="tranche-items">
+          <li>Масштаб рекламы</li>
+          <li>Контент</li>
+          <li>Первые туры</li>
+          <li>Резерв</li>
+          <li>Зарплаты</li>
+        </ul>
+      </div>
+    </div>
+    <div class="r" style="margin-top:50px;">
+      <h3 style="font-family:var(--font-display); font-size:0.75rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--muted); margin-bottom:24px;">Реалистичный запуск</h3>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:2px;">
+        <div style="background:var(--surface); border:1px solid var(--border); padding:32px; text-align:center;">
+          <div style="font-family:var(--font-display); font-size:0.6rem; font-weight:700; letter-spacing:0.2em; color:rgba(255,255,255,0.4); margin-bottom:12px;">МЕСЯЦ 1</div>
+          <p style="font-family:var(--font-body); font-size:1.15rem; color:rgba(255,255,255,0.7);">Контент, подготовка</p>
+        </div>
+        <div style="background:var(--surface); border:1px solid var(--border); padding:32px; text-align:center;">
+          <div style="font-family:var(--font-display); font-size:0.6rem; font-weight:700; letter-spacing:0.2em; color:var(--accent-blue); margin-bottom:12px;">МЕСЯЦ 2</div>
+          <p style="font-family:var(--font-body); font-size:1.15rem; color:rgba(255,255,255,0.7);">Лиды, переговоры</p>
+        </div>
+        <div style="background:var(--surface); border:1px solid var(--border); padding:32px; text-align:center; position:relative; overflow:hidden;">
+          <div style="position:absolute; inset:0; background:linear-gradient(135deg, rgba(212,175,55,0.1), transparent); z-index:0;"></div>
+          <div style="position:relative; z-index:1;">
+            <div style="font-family:var(--font-display); font-size:0.6rem; font-weight:700; letter-spacing:0.2em; color:var(--accent-gold); margin-bottom:12px;">МЕСЯЦ 3</div>
+            <p style="font-family:var(--font-body); font-size:1.15rem; color:var(--text); font-weight:600;">Первый клиент</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="roadmap">
+  <div class="section">
+    <span class="label r">Масштабирование</span>
+    <h2 class="display-title r" style="max-width:700px;">Roadmap: от запуска до лидерства</h2>
+    <div class="roadmap-grid">
+      <div class="road-card r">
+        <span class="road-phase">Phase 1</span>
+        <div class="road-title">Бренд и MVP</div>
+        <ul class="road-items">
+          <li>Запуск сайта</li>
+          <li>Сборка команды</li>
+          <li>Наурыз как сезонный хук</li>
+          <li>Первый контент</li>
+          <li>Тест-экспедиции</li>
+        </ul>
+      </div>
+      <div class="road-card r" style="transition-delay:0.1s;">
+        <span class="road-phase">Phase 2</span>
+        <div class="road-title">Технологии и масштаб</div>
+        <ul class="road-items">
+          <li>CRM-интеграция</li>
+          <li>Мобильное приложение</li>
+          <li>Стратегические партнёрства</li>
+          <li>BYD Leopard — флагман</li>
+          <li>Мангыстау как flagship</li>
+        </ul>
+      </div>
+      <div class="road-card r" style="transition-delay:0.2s;">
+        <span class="road-phase">Phase 3</span>
+        <div class="road-title">Экспансия</div>
+        <ul class="road-items">
+          <li>Производство мерча</li>
+          <li>Узбекистан (Самарканд)</li>
+          <li>Собственные юрт-кемпы</li>
+          <li>Байконур — развитие</li>
+          <li>Масштаб блогеров</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="cta-inner">
+    <p class="cta-super r">Финальная мысль</p>
+    <h2 class="cta-title r">
+      Присоединитесь<br/>к <span>Nomadia</span>
+    </h2>
+    <p class="cta-sub r">Это продукт для людей, которые готовы платить за опыт, который они не могут создать самостоятельно.</p>
+    <div class="cta-contacts r">
+      <a href="tel:+77007880027" class="contact-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18C0 .62.18.08.58-.32A2 2 0 012.07 0H5a2 2 0 012 1.72c.13.96.36 1.9.71 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.35 1.85.58 2.81.71A2 2 0 0122 14.92z"/></svg>
+        +7 700 788 0027
+      </a>
+      <a href="https://www.instagram.com/rahat_akhmet" target="_blank" rel="noopener" class="contact-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        @rahat_akhmet
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">NOMADIA</div>
+  <div class="footer-copy">© 2024 Nomadia Travel. Все права защищены.</div>
+  <div class="footer-loc">Алматы, Казахстан</div>
+</footer>
+
+<script>
+// ── CUSTOM CURSOR ──
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animateCursor() {
+  cursor.style.left = mx + 'px';
+  cursor.style.top = my + 'px';
+  rx += (mx - rx) * 0.15;
+  ry += (my - ry) * 0.15;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => { 
+    cursor.style.width = '6px'; cursor.style.height = '6px'; 
+    ring.style.width = '60px'; ring.style.height = '60px'; 
+    ring.style.borderColor = 'rgba(212, 175, 55, 0.8)';
+  });
+  el.addEventListener('mouseleave', () => { 
+    cursor.style.width = '8px'; cursor.style.height = '8px'; 
+    ring.style.width = '44px'; ring.style.height = '44px'; 
+    ring.style.borderColor = 'rgba(212, 175, 55, 0.5)';
+  });
+});
+
+// ── SCROLL REVEAL ──
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => { 
+    if (entry.isIntersecting) { 
+      entry.target.classList.add('visible'); 
+      revealObserver.unobserve(entry.target); // Убираем наблюдение после появления
+    } 
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.r, .r-left, .r-right').forEach(el => revealObserver.observe(el));
+
+// ── NAV SCROLL ──
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 80);
+});
+
+// ── STAGGER for grids ──
+document.querySelectorAll('.routes-grid, .seasons-grid, .pricing-grid, .tranche-grid, .roadmap-grid, .exclusive-visual, .luxury-pillars').forEach(grid => {
+  const children = grid.querySelectorAll('.r, .route-item, .season-col, .price-card, .tranche-card, .road-card, .excl-card, .pillar');
+  children.forEach((child, i) => { child.style.transitionDelay = (i * 0.1) + 's'; });
+});
+</script>
+
+</body>
+</html>
