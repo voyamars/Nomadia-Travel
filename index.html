@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="format-detection" content="telephone=no, date=no, email=no, address=no">
 <title>Nomadia — Luxury Expeditions in Central Asia</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -1444,6 +1445,17 @@ footer {
   footer { padding: 30px 24px; flex-direction: column; align-items: flex-start; gap: 16px; }
   .cta-inner { padding: 120px 24px; }
   .hero-content { padding-top: 100px; }
+    .finance-split {
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+
+  .finance-right {
+    padding-left: 0;
+    border-left: none;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
 }
 @media (max-width: 540px) {
   .routes-grid { grid-template-columns: 1fr; }
@@ -1453,6 +1465,91 @@ footer {
   .cta-contacts { flex-direction: column; align-items: stretch; }
   .contact-pill { justify-content: center; }
   .hero-scroll { flex-direction: column; align-items: flex-start; gap: 30px; }
+}
+  /* Убираем авто-стили iPhone/Safari для распознанных чисел */
+a[x-apple-data-detectors],
+a[x-apple-data-detectors-type],
+.x-apple-data-detectors,
+u + #body a {
+  color: inherit !important;
+  text-decoration: none !important;
+  font: inherit !important;
+  border-bottom: none !important;
+}
+  /* Усиливаем итоговые цифры в блоках экономики */
+.econ-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  gap: 20px;
+}
+
+.econ-val {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.econ-val.profit {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2vw, 1.8rem);
+  font-weight: 900;
+  line-height: 1;
+  color: var(--accent-warm);
+  letter-spacing: -0.03em;
+}
+  /* Исправление блока с KZ */
+.about-card-large:hover {
+  transform: none;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 40px rgba(212, 175, 55, 0.05);
+}
+
+.about-glyph {
+  top: 34px;
+  right: 34px;
+  font-size: 8rem;
+  color: rgba(255,255,255,0.06);
+  z-index: 0;
+}
+
+.about-card-large:hover .about-glyph {
+  color: rgba(255,255,255,0.08);
+}
+
+.about-card-label {
+  position: relative;
+  z-index: 2;
+  max-width: 72%;
+}
+
+.about-card-label p {
+  color: rgba(255,255,255,0.88);
+}
+
+.about-mini-cards {
+  bottom: -18px;
+  right: -36px;
+}
+
+.mini-card {
+  background: rgba(10, 13, 18, 0.92);
+}
+  /* Разделение двух колонок в финансовом блоке */
+.finance-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  position: relative;
+}
+
+.finance-right {
+  padding-left: 44px;
+  border-left: 1px solid rgba(255,255,255,0.08);
 }
 </style>
 
@@ -1996,7 +2093,7 @@ footer {
       <span class="total-label">Общий инвестиционный запрос</span>
       <span class="total-val">20 000 000 ₸</span>
     </div>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:80px;">
+    <div class="finance-split">
       <div class="r">
         <p style="font-family:var(--font-display); font-size:0.65rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--muted); margin-bottom:24px;">Ежемесячный burn</p>
         <div class="finance-item"><span class="finance-name">Рахат</span><span class="finance-amount">600 000 ₸</span></div>
@@ -2014,7 +2111,7 @@ footer {
           <div class="econ-row" style="padding:0; border:none;"><span class="econ-label">Runway (3 месяца)</span><span class="econ-val" style="color:var(--accent-gold);">9 000 000 ₸</span></div>
         </div>
       </div>
-      <div class="r" style="transition-delay:0.15s;">
+      <div class="r finance-right" style="transition-delay:0.15s;">
         <p style="font-family:var(--font-display); font-size:0.65rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--muted); margin-bottom:24px;">Разовые инвестиции</p>
         <div class="finance-item"><span class="finance-name">Техника и контент</span><span class="finance-amount">~800 000 ₸</span></div>
         <div class="finance-item"><span class="finance-name">Одежда и визуальный образ</span><span class="finance-amount">500 000 ₸</span></div>
