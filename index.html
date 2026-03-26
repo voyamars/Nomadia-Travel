@@ -1551,6 +1551,37 @@ u + #body a {
   padding-left: 44px;
   border-left: 1px solid rgba(255,255,255,0.08);
 }
+  .about-card-caption {
+  position: absolute;
+  left: 32px;
+  bottom: 28px;
+  z-index: 3;
+  max-width: 320px;
+  padding: 18px 22px;
+  background: rgba(8, 10, 12, 0.72);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 4px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.about-card-caption strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 10px;
+}
+
+.about-card-caption p {
+  font-family: var(--font-body);
+  font-size: 1.22rem;
+  line-height: 1.45;
+  color: rgba(255,255,255,0.9);
+}
 </style>
 
 </head>
@@ -1664,12 +1695,13 @@ u + #body a {
       <div class="r-right">
         <div class="about-visual">
           <div class="about-card-large">
-            <div class="about-glyph">KZ</div>
-            <div class="about-card-label">
-              <strong>Концепция</strong>
-              <p>Это не просто туризм. Это curated experience.</p>
-            </div>
-          </div>
+  <div class="about-glyph">KZ</div>
+</div>
+
+<div class="about-card-caption">
+  <strong>Концепция</strong>
+  <p>Это не просто туризм. Это curated experience.</p>
+</div>
           <div class="about-mini-cards">
             <div class="mini-card">
               <span class="mini-card-icon">🦅</span>
