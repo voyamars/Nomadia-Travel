@@ -1505,8 +1505,10 @@ u + #body a {
 }
   /* Исправление блока с KZ */
 .about-card-large:hover {
-  transform: none;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 40px rgba(212, 175, 55, 0.05);
+  transform: translateY(-6px) scale(1.01);
+  box-shadow:
+    0 26px 50px rgba(0,0,0,0.45),
+    0 0 40px rgba(212, 175, 55, 0.07);
 }
 
 .about-glyph {
@@ -1515,10 +1517,12 @@ u + #body a {
   font-size: 8rem;
   color: rgba(255,255,255,0.06);
   z-index: 0;
+  transition: transform 0.45s ease, color 0.45s ease;
 }
 
-.about-card-large:hover .about-glyph {
-  color: rgba(255,255,255,0.08);
+.about-visual:hover .about-glyph {
+  transform: translateY(-4px) scale(1.02);
+  color: rgba(255,255,255,0.09);
 }
 
 .about-card-label {
@@ -1534,6 +1538,11 @@ u + #body a {
 .about-mini-cards {
   bottom: -18px;
   right: -36px;
+  z-index: 5;
+  transition: transform 0.45s ease;
+}
+  .about-visual:hover .about-mini-cards {
+  transform: translateY(-4px);
 }
 
 .mini-card {
@@ -1553,23 +1562,30 @@ u + #body a {
 }
   .about-card-caption {
   position: absolute;
-  left: 40px;
-  right: 40px;
+  left: 34px;
+  right: auto;
+  bottom: 34px;
+  z-index: 4;
 
-  bottom: 120px; /* <-- ВОТ ГЛАВНОЕ */
-
-  z-index: 3;
-
-  max-width: 420px;
+  width: 360px;
+  max-width: calc(100% - 140px);
 
   padding: 22px 26px;
 
-  background: rgba(8, 10, 12, 0.82);
+  background: rgba(8, 10, 12, 0.86);
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 4px;
 
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+
+  box-shadow: 0 14px 30px rgba(0,0,0,0.35);
+  transition: transform 0.45s ease, box-shadow 0.45s ease, border-color 0.45s ease;
+}
+  .about-visual:hover .about-card-caption {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 38px rgba(0,0,0,0.42);
+  border-color: rgba(212, 175, 55, 0.18);
 }
 
 .about-card-caption strong {
